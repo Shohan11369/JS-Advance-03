@@ -80,3 +80,16 @@ function loadDashboard() {
     currentUser.balance.toFixed(2);
   updateHistory();
 }
+
+// AddMoney option
+
+function AddMoney() {
+  const amount = parseFloat(document.getElementById("add-amount").value);
+  if (isNaN(amount) || amount <= 0) {
+    alert("Enter a valid amount");
+    return;
+  }
+
+  currentUser.balance += amount;
+  addTransaction("Add", amount);
+}
