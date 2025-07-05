@@ -42,3 +42,28 @@ function signUp() {
   alert("Account successfully created. Now login");
   showSignIn();
 }
+
+// SignIn start
+
+function signIn() {
+  const username = document.getElementById("signin-username").value.trim();
+  const password = document.getElementById("signin-password").value.trim();
+  const error = document.getElementById("signin-error");
+
+  const stored = localStorage.getItem("user_" + username);
+  if (!stored) {
+    error.textContent = "user not found";
+    error.classList.remove("hidden");
+    return;
+  }
+
+  const user = JSON.parse(stored);
+  if (user.password !== password) {
+    error.textContent = "Incorrect password";
+    error.classList.remove("hidden");
+    return;
+  }
+
+  currentUser = user;
+  loadDashboard();
+}
