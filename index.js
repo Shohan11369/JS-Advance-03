@@ -111,3 +111,22 @@ function WithDrawMoney() {
   currentUser.balance -= amount;
   addTransaction("Withdraw", amount);
 }
+
+// AddTransaction
+
+function addTransaction(type, amount) {
+  const tx = {
+    type,
+    amount,
+    date: new Date().toLocaleString(),
+    balanceAfter: currentUser.balance,
+  };
+  currentUser.history.push(tx);
+  localStorage.setItem(
+    "user_" + currentUser.username,
+    JSON.stringify(currentUser)
+  );
+  document.getElementById("balance").textContent =
+    currentUser.balance.toFixed(3);
+  updateHistory();
+}
