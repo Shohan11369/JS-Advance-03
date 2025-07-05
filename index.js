@@ -130,3 +130,33 @@ function addTransaction(type, amount) {
     currentUser.balance.toFixed(3);
   updateHistory();
 }
+
+// Update History Start
+
+function updateHistory() {
+  const list = document.getElementById("transaction-list");
+  list.innerHTML = "";
+  currentUser.history
+    .slice()
+    .reverse()
+    .forEach((tx) => {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <div class="p-3 border-l-4 rounded ${
+          tx.type === "Add"
+            ? "bg-green-50 border-green-500"
+            : "bg-red-50 border-red-500"
+        }">
+            <p><strong>${
+              tx.type === "Add" ? "🟢 Added" : "🔴 Withdrawn"
+            } ৳${tx.amount.toFixed(2)}</strong></p>
+            <p class="text-xs text-gray-600">${tx.date}</p>
+            <p class="text-xs text-gray-500">Balance: ৳${tx.balanceAfter.toFixed(
+              2
+            )}</p>
+          </div>`;
+
+      list.appendChild(li);
+    });
+}
