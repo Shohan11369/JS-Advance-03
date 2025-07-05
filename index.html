@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Bank Apps</title>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- Sign Up -->
+    <div id="sigup" class="bg-white p-6 rounded-xl shadow w-full max-w-sm">
+      <h2 class="text-2xl font-bold text-blue-600 mb-4 text-center">Sign Up</h2>
+      <input
+        type="text"
+        id="signup-name"
+        placeholder="Full Name"
+        class="w-full p-2 border rounded mb-2"
+      />
+      <input
+        type="text"
+        id="signup-username"
+        placeholder="User name"
+        class="w-full p-2 border rounded mb-2"
+      />
+      <input
+        type="text"
+        id="signup-password"
+        placeholder="Password"
+        class="w-full p-2 border rounded mb-2"
+      />
+
+      <button
+        onclick="signUp()"
+        class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded"
+      >
+        Create Account
+      </button>
+
+      <p class="text-sm mt-3 text-center">
+        Already have account?
+        <a href="#" onclick="showSignIn()" class="text-blue-600 underline"
+          >Sign In</a
+        >
+      </p>
+      <p id="signup-error" class="text-red-500 text-sm mt-2 hidden"></p>
+    </div>
+  </body>
+</html>
