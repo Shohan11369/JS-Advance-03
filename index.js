@@ -160,3 +160,10 @@ function updateHistory() {
       list.appendChild(li);
     });
 }
+
+// Logout Final
+function logout() {
+  currentUser = null;
+  document.getElementById("dashboard").classList.add("hidden");
+  showSignIn();
+}
