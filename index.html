@@ -52,7 +52,7 @@
       class="hidden bg-white p-6 rounded-xl shadow w-full max-w-sm"
     >
       <h2 class="text-2xl font-bold text-purple-600 mb-4 text-center">
-        🌸 Sign In
+        Sign In
       </h2>
       <input
         id="signin-username"
@@ -79,6 +79,77 @@
         >
       </p>
       <p id="signin-error" class="text-red-500 text-sm mt-2 hidden"></p>
+    </div>
+
+    <!-- DashBoard -->
+
+    <div class="hidden w-full max-w-3xl mx-auto p-4" id="dashboard">
+      <div class="bg-blue-500 text-white rounded-xl p-6 mb-6 shadow">
+        <h1 class="text-2xl font-bold">RHB Bank</h1>
+        <p class="mt-1">
+          Welcome , <span id="user-name" class="font-semibold"></span>
+        </p>
+      </div>
+
+      <div
+        class="bg-white p-6 rounded-xl shadow mb-4 flex justify-between items center"
+      >
+        <div>
+          <p class="text-gray-500">Available Balance</p>
+          <h2 class="text-3xl text-green-600 font-bold">
+            RM<span id="balance">0</span>
+          </h2>
+        </div>
+        <button
+          onclick="logout()"
+          class="bg-red-500 text-white px-4 py-2 rounded text-sm"
+        >
+          LogOut
+        </button>
+      </div>
+
+      <div
+        class="bg-white p-6 rounded-xl shadow mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
+        <div>
+          <h3 class="font-semibold mb-1">➕ Add Money</h3>
+          <input
+            type="number"
+            id="add-amount"
+            class="w-full p-2 border rounded mb-2"
+            placeholder="Amount"
+          />
+          <button
+            onclick="addMoney()"
+            class="w-full bg-green-500 text-white py-2 rounded"
+          >
+            Add
+          </button>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-1">➖ Withdraw</h3>
+          <input
+            type="number"
+            id="withdraw-amount"
+            class="w-full p-2 border rounded mb-2"
+            placeholder="Amount"
+          />
+          <button
+            onclick="withdrawMoney()"
+            class="w-full bg-red-500 text-white py-2 rounded"
+          >
+            Withdraw
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-3">📄 Transaction History</h3>
+        <ul
+          id="transaction-list"
+          class="space-y-3 max-h-96 overflow-y-auto text-sm"
+        ></ul>
+      </div>
     </div>
   </body>
 </html>
