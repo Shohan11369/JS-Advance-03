@@ -93,3 +93,21 @@ function AddMoney() {
   currentUser.balance += amount;
   addTransaction("Add", amount);
 }
+
+// WithDraw Money option
+
+function WithDrawMoney() {
+  const amount = parseFloat(Document.getElementById("withdraw-amount").value);
+  if (isNaN(amount) || amount <= 0) {
+    alert("Enter a valid amount");
+    return;
+  }
+
+  if (amount > currentUser.balance) {
+    alert("Insufficient balance");
+    return;
+  }
+
+  currentUser.balance -= amount;
+  addTransaction("Withdraw", amount);
+}
