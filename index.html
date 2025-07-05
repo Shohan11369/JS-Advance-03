@@ -185,175 +185,184 @@
 
     <!-- JavaScrip Start -->
 
-    <script src="index.js">
+    <script>
+      let currentUser = null;
+      function showSignIn() {
+        document.getElementById("signup").classList.add("hidden");
+        document.getElementById("signin").classList.remove("hidden");
+      }
 
-        let currentUser = null;
-        function showSignIn() {
-          document.getElementById("signup").classList.add("hidden");
-          document.getElementById("signin").classList.remove("hidden");
-        }
-
-        function showSignUp() {
-          document.getElementById("signin").classList.add("hidden");
-          document.getElementById("signup").classList.remove("hidden");
-        }
+      function showSignUp() {
+        document.getElementById("signin").classList.add("hidden");
+        document.getElementById("signup").classList.remove("hidden");
+      }
 
       //   SignUP Start
-        function signUp() {
-          const name = document.getElementById("signup-name").value.trim();
-          const username = document.getElementById("signup-username").value.trim();
-          const password = document.getElementById("signup-password").value.trim();
-          const error = document.getElementById("signup-error");
+      function signUp() {
+        const name = document.getElementById("signup-name").value.trim();
+        const username = document
+          .getElementById("signup-username")
+          .value.trim();
+        const password = document
+          .getElementById("signup-password")
+          .value.trim();
+        const error = document.getElementById("signup-error");
 
-          if (!name || !username || !password) {
-            error.textContent = "All Fields are required";
-            error.classList.remove("hidden");
-            return;
-          }
-
-          if (localStorage.getItem("user_" + username)) {
-            error.textContent = "Username already exists.";
-            error.classList.remove("hidden");
-            return;
-          }
-
-          const user = {
-            name,
-            username,
-            password,
-            balance: 0,
-            history: [],
-          };
-
-          localStorage.setItem("user_" + username, JSON.stringify(user));
-          alert("Account successfully created. Now login");
-          showSignIn();
+        if (!name || !username || !password) {
+          error.textContent = "All Fields are required";
+          error.classList.remove("hidden");
+          return;
         }
 
-        // SignIn start
-
-        function signIn() {
-          const username = document.getElementById("signin-username").value.trim();
-          const password = document.getElementById("signin-password").value.trim();
-          const error = document.getElementById("signin-error");
-
-          const stored = localStorage.getItem("user_" + username);
-          if (!stored) {
-            error.textContent = "user not found";
-            error.classList.remove("hidden");
-            return;
-          }
-
-          const user = JSON.parse(stored);
-          if (user.password !== password) {
-            error.textContent = "Incorrect password";
-            error.classList.remove("hidden");
-            return;
-          }
-
-          currentUser = user;
-          loadDashboard();
+        if (localStorage.getItem("user_" + username)) {
+          error.textContent = "Username already exists.";
+          error.classList.remove("hidden");
+          return;
         }
 
-        // SignUP ans SignIn show/hide
-        function togglePassword(inputId, toggleEl) {
-          const input = document.getElementById(inputId);
-          if (input.type === "password") {
-            input.type = "text";
-            toggleEl.textContent = "Hide";
-          } else {
-            input.type = "password";
-            toggleEl.textContent = "Show";
-          }
+        const user = {
+          name,
+          username,
+          password,
+          balance: 0,
+          history: [],
+        };
+
+        localStorage.setItem("user_" + username, JSON.stringify(user));
+        alert("Account successfully created. Now login");
+        showSignIn();
+      }
+
+      // SignIn start
+
+      function signIn() {
+        const username = document
+          .getElementById("signin-username")
+          .value.trim();
+        const password = document
+          .getElementById("signin-password")
+          .value.trim();
+        const error = document.getElementById("signin-error");
+
+        const stored = localStorage.getItem("user_" + username);
+        if (!stored) {
+          error.textContent = "user not found";
+          error.classList.remove("hidden");
+          return;
         }
 
-        // DashBoard Start
-
-        function loadDashboard() {
-          document.getElementById("signup").classList.add("hidden");
-          document.getElementById("signin").classList.add("hidden");
-          document.getElementById("dashboard").classList.remove("hidden");
-
-          document.getElementById("user-name").textContent = currentUser.name;
-          document.getElementById("balance").textContent =
-            currentUser.balance.toFixed(2);
-          updateHistory();
+        const user = JSON.parse(stored);
+        if (user.password !== password) {
+          error.textContent = "Incorrect password";
+          error.classList.remove("hidden");
+          return;
         }
 
-        // AddMoney option
+        currentUser = user;
+        loadDashboard();
+      }
 
-        function addMoney() {
-          const amount = parseFloat(document.getElementById("add-amount").value);
-          if (isNaN(amount) || amount <= 0) {
-            alert("Enter a valid amount");
-            return;
-          }
+      // SignUP ans SignIn show/hide
+      function togglePassword(inputId, toggleEl) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+          input.type = "text";
+          toggleEl.textContent = "Hide";
+        } else {
+          input.type = "password";
+          toggleEl.textContent = "Show";
+        }
+      }
 
-          currentUser.balance += amount;
-          addTransaction("Add", amount);
+      // DashBoard Start
+
+      function loadDashboard() {
+        document.getElementById("signup").classList.add("hidden");
+        document.getElementById("signin").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        document.getElementById("user-name").textContent = currentUser.name;
+        document.getElementById("balance").textContent =
+          currentUser.balance.toFixed(2);
+        updateHistory();
+      }
+
+      // AddMoney option
+
+      function addMoney() {
+        const amount = parseFloat(document.getElementById("add-amount").value);
+        if (isNaN(amount) || amount <= 0) {
+          alert("Enter a valid amount");
+          return;
         }
 
-        // WithDraw Money option
+        currentUser.balance += amount;
+        addTransaction("Add", amount);
+      }
 
-        function withDrawMoney() {
-          const amount = parseFloat(document.getElementById("withdraw-amount").value);
-          if (isNaN(amount) || amount <= 0) {
-            alert("Enter a valid amount");
-            return;
-          }
+      // WithDraw Money option
 
-          if (amount > currentUser.balance) {
-            alert("Insufficient balance");
-            return;
-          }
-
-          currentUser.balance -= amount;
-          addTransaction("Withdraw", amount);
+      function withDrawMoney() {
+        const amount = parseFloat(
+          document.getElementById("withdraw-amount").value
+        );
+        if (isNaN(amount) || amount <= 0) {
+          alert("Enter a valid amount");
+          return;
         }
 
-        // AddTransaction
-
-        function addTransaction(type, amount) {
-          const tx = {
-            type,
-            amount,
-            date: new Date().toLocaleString(),
-            balanceAfter: currentUser.balance,
-          };
-          currentUser.history.push(tx);
-          localStorage.setItem(
-            "user_" + currentUser.username,
-            JSON.stringify(currentUser)
-          );
-          document.getElementById("balance").textContent =
-            currentUser.balance.toFixed(3);
-          updateHistory();
+        if (amount > currentUser.balance) {
+          alert("Insufficient balance");
+          return;
         }
 
-        // Clear History
-        function clearHistory() {
-          if (!confirm("Are you sure you want to delete all history?")) return;
+        currentUser.balance -= amount;
+        addTransaction("Withdraw", amount);
+      }
 
-          currentUser.history = [];
-          localStorage.setItem(
-            "user_" + currentUser.username,
-            JSON.stringify(currentUser)
-          );
-          updateHistory();
-        }
+      // AddTransaction
 
-        // Update History Start
+      function addTransaction(type, amount) {
+        const tx = {
+          type,
+          amount,
+          date: new Date().toLocaleString(),
+          balanceAfter: currentUser.balance,
+        };
+        currentUser.history.push(tx);
+        localStorage.setItem(
+          "user_" + currentUser.username,
+          JSON.stringify(currentUser)
+        );
+        document.getElementById("balance").textContent =
+          currentUser.balance.toFixed(3);
+        updateHistory();
+      }
 
-        function updateHistory() {
-          const list = document.getElementById("transaction-list");
-          list.innerHTML = "";
-          currentUser.history
-            .slice()
-            .reverse()
-            .forEach((tx) => {
-              const li = document.createElement("li");
+      // Clear History
+      function clearHistory() {
+        if (!confirm("Are you sure you want to delete all history?")) return;
 
-              li.innerHTML = `
+        currentUser.history = [];
+        localStorage.setItem(
+          "user_" + currentUser.username,
+          JSON.stringify(currentUser)
+        );
+        updateHistory();
+      }
+
+      // Update History Start
+
+      function updateHistory() {
+        const list = document.getElementById("transaction-list");
+        list.innerHTML = "";
+        currentUser.history
+          .slice()
+          .reverse()
+          .forEach((tx) => {
+            const li = document.createElement("li");
+
+            li.innerHTML = `
                 <div class="p-3 border-l-4 rounded ${
                   tx.type === "Add"
                     ? "bg-green-50 border-green-500"
@@ -368,16 +377,16 @@
                     )}</p>
                   </div>`;
 
-              list.appendChild(li);
-            });
-        }
+            list.appendChild(li);
+          });
+      }
 
-        // Logout Final
-        function logout() {
-          currentUser = null;
-          document.getElementById("dashboard").classList.add("hidden");
-          showSignIn();
-        }
+      // Logout Final
+      function logout() {
+        currentUser = null;
+        document.getElementById("dashboard").classList.add("hidden");
+        showSignIn();
+      }
     </script>
   </body>
 </html>
