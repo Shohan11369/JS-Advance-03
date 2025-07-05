@@ -67,3 +67,16 @@ function signIn() {
   currentUser = user;
   loadDashboard();
 }
+
+// DashBoard Start
+
+function loadDashboard() {
+  document.getElementById("signup").classList.add("hidden");
+  document.getElementById("signin").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+
+  document.getElementById("user-name").textContent = currentUser.name;
+  document.getElementById("balance").textContent =
+    currentUser.balance.toFixed(2);
+  updateHistory();
+}
