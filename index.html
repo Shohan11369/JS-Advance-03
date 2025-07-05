@@ -7,9 +7,11 @@
     <title>Bank Apps</title>
   </head>
 
-  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <body
+    class="bg-gradient-to-r from-[#a0d2eb] to-[#8458B3] min-h-screen flex items-center justify-center p-4"
+  >
     <!-- Sign Up -->
-    <div id="sigup" class="bg-white p-6 rounded-xl shadow w-full max-w-sm">
+    <div id="signup" class="bg-white p-6 rounded-xl shadow w-full max-w-sm">
       <h2 class="text-2xl font-bold text-blue-600 mb-4 text-center">Sign Up</h2>
       <input
         type="text"
@@ -23,23 +25,34 @@
         placeholder="User name"
         class="w-full p-2 border rounded mb-2"
       />
-      <input
-        type="text"
-        id="signup-password"
-        placeholder="Password"
-        class="w-full p-2 border rounded mb-2"
-      />
 
+      <div class="relative">
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="Password"
+          class="w-full p-2 border rounded mb-2"
+        />
+        <span
+          class="absolute right-3 top-2.5 text-sm text-blue-600 cursor-pointer"
+          onclick="togglePassword('signup-password', this)"
+        >
+          show
+        </span>
+      </div>
       <button
         onclick="signUp()"
-        class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded"
+        class="w-full bg-orange-600 hover:bg-purple-600 text-white py-2 rounded font-bold"
       >
         Create Account
       </button>
 
       <p class="text-sm mt-3 text-center">
         Already have account?
-        <a href="#" onclick="showSignIn()" class="text-blue-600 underline"
+        <a
+          href="#"
+          onclick="showSignIn()"
+          class="text-blue-600 underline hover:text-black font-bold"
           >Sign In</a
         >
       </p>
@@ -60,21 +73,33 @@
         placeholder="Username"
         class="w-full p-2 border rounded mb-2"
       />
-      <input
-        id="signin-password"
-        type="password"
-        placeholder="Password"
-        class="w-full p-2 border rounded mb-2"
-      />
+      <div class="relative">
+        <input
+          id="signin-password"
+          type="password"
+          placeholder="Password"
+          class="w-full p-2 border rounded mb-2"
+        />
+
+        <span
+          class="absolute right-3 top-2.5 text-sm text-blue-600 cursor-pointer"
+          onclick="togglePassword('signin-password', this)"
+        >
+          Show
+        </span>
+      </div>
       <button
         onclick="signIn()"
-        class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded"
+        class="w-full bg-orange-600 hover:bg-purple-600 text-white py-2 rounded font-bold"
       >
         Login
       </button>
       <p class="text-sm mt-3 text-center">
         New user?
-        <a href="#" onclick="showSignUp()" class="text-blue-600 underline"
+        <a
+          href="#"
+          onclick="showSignUp()"
+          class="text-blue-600 underline font-bold"
           >Create Account</a
         >
       </p>
@@ -84,7 +109,7 @@
     <!-- DashBoard -->
 
     <div class="hidden w-full max-w-3xl mx-auto p-4" id="dashboard">
-      <div class="bg-blue-500 text-white rounded-xl p-6 mb-6 shadow">
+      <div class="bg-gray-300 text-black rounded-xl p-6 mb-6 shadow">
         <h1 class="text-2xl font-bold">RHB Bank</h1>
         <p class="mt-1">
           Welcome , <span id="user-name" class="font-semibold"></span>
@@ -96,13 +121,13 @@
       >
         <div>
           <p class="text-gray-500">Available Balance</p>
-          <h2 class="text-3xl text-green-600 font-bold">
+          <h2 class="text-3xl text-black font-bold">
             RM<span id="balance">0</span>
           </h2>
         </div>
         <button
           onclick="logout()"
-          class="bg-red-500 text-white px-4 py-2 rounded text-sm"
+          class="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-green-400 font-bold"
         >
           LogOut
         </button>
@@ -121,7 +146,7 @@
           />
           <button
             onclick="addMoney()"
-            class="w-full bg-green-500 text-white py-2 rounded"
+            class="w-full bg-green-500 text-white py-2 rounded hover:bg-blue-500 hover:text-black font-bold"
           >
             Add
           </button>
@@ -135,8 +160,8 @@
             placeholder="Amount"
           />
           <button
-            onclick="withdrawMoney()"
-            class="w-full bg-red-500 text-white py-2 rounded"
+            onclick="withDrawMoney()"
+            class="w-full bg-purple-500 hover:bg-red-500 font-bold text-white hover:text-black py-2 rounded"
           >
             Withdraw
           </button>
@@ -145,6 +170,12 @@
 
       <div class="bg-white p-6 rounded-xl shadow">
         <h3 class="text-xl font-semibold mb-3">📄 Transaction History</h3>
+        <button
+          onclick="clearHistory()"
+          class="text-red-500 text-sm font-bold hover:underline"
+        >
+          Clear All
+        </button>
         <ul
           id="transaction-list"
           class="space-y-3 max-h-96 overflow-y-auto text-sm"
@@ -154,6 +185,199 @@
 
     <!-- JavaScrip Start -->
 
-    <script src="index.js"></script>
+    <script src="index.js">
+
+        let currentUser = null;
+        function showSignIn() {
+          document.getElementById("signup").classList.add("hidden");
+          document.getElementById("signin").classList.remove("hidden");
+        }
+
+        function showSignUp() {
+          document.getElementById("signin").classList.add("hidden");
+          document.getElementById("signup").classList.remove("hidden");
+        }
+
+      //   SignUP Start
+        function signUp() {
+          const name = document.getElementById("signup-name").value.trim();
+          const username = document.getElementById("signup-username").value.trim();
+          const password = document.getElementById("signup-password").value.trim();
+          const error = document.getElementById("signup-error");
+
+          if (!name || !username || !password) {
+            error.textContent = "All Fields are required";
+            error.classList.remove("hidden");
+            return;
+          }
+
+          if (localStorage.getItem("user_" + username)) {
+            error.textContent = "Username already exists.";
+            error.classList.remove("hidden");
+            return;
+          }
+
+          const user = {
+            name,
+            username,
+            password,
+            balance: 0,
+            history: [],
+          };
+
+          localStorage.setItem("user_" + username, JSON.stringify(user));
+          alert("Account successfully created. Now login");
+          showSignIn();
+        }
+
+        // SignIn start
+
+        function signIn() {
+          const username = document.getElementById("signin-username").value.trim();
+          const password = document.getElementById("signin-password").value.trim();
+          const error = document.getElementById("signin-error");
+
+          const stored = localStorage.getItem("user_" + username);
+          if (!stored) {
+            error.textContent = "user not found";
+            error.classList.remove("hidden");
+            return;
+          }
+
+          const user = JSON.parse(stored);
+          if (user.password !== password) {
+            error.textContent = "Incorrect password";
+            error.classList.remove("hidden");
+            return;
+          }
+
+          currentUser = user;
+          loadDashboard();
+        }
+
+        // SignUP ans SignIn show/hide
+        function togglePassword(inputId, toggleEl) {
+          const input = document.getElementById(inputId);
+          if (input.type === "password") {
+            input.type = "text";
+            toggleEl.textContent = "Hide";
+          } else {
+            input.type = "password";
+            toggleEl.textContent = "Show";
+          }
+        }
+
+        // DashBoard Start
+
+        function loadDashboard() {
+          document.getElementById("signup").classList.add("hidden");
+          document.getElementById("signin").classList.add("hidden");
+          document.getElementById("dashboard").classList.remove("hidden");
+
+          document.getElementById("user-name").textContent = currentUser.name;
+          document.getElementById("balance").textContent =
+            currentUser.balance.toFixed(2);
+          updateHistory();
+        }
+
+        // AddMoney option
+
+        function addMoney() {
+          const amount = parseFloat(document.getElementById("add-amount").value);
+          if (isNaN(amount) || amount <= 0) {
+            alert("Enter a valid amount");
+            return;
+          }
+
+          currentUser.balance += amount;
+          addTransaction("Add", amount);
+        }
+
+        // WithDraw Money option
+
+        function withDrawMoney() {
+          const amount = parseFloat(document.getElementById("withdraw-amount").value);
+          if (isNaN(amount) || amount <= 0) {
+            alert("Enter a valid amount");
+            return;
+          }
+
+          if (amount > currentUser.balance) {
+            alert("Insufficient balance");
+            return;
+          }
+
+          currentUser.balance -= amount;
+          addTransaction("Withdraw", amount);
+        }
+
+        // AddTransaction
+
+        function addTransaction(type, amount) {
+          const tx = {
+            type,
+            amount,
+            date: new Date().toLocaleString(),
+            balanceAfter: currentUser.balance,
+          };
+          currentUser.history.push(tx);
+          localStorage.setItem(
+            "user_" + currentUser.username,
+            JSON.stringify(currentUser)
+          );
+          document.getElementById("balance").textContent =
+            currentUser.balance.toFixed(3);
+          updateHistory();
+        }
+
+        // Clear History
+        function clearHistory() {
+          if (!confirm("Are you sure you want to delete all history?")) return;
+
+          currentUser.history = [];
+          localStorage.setItem(
+            "user_" + currentUser.username,
+            JSON.stringify(currentUser)
+          );
+          updateHistory();
+        }
+
+        // Update History Start
+
+        function updateHistory() {
+          const list = document.getElementById("transaction-list");
+          list.innerHTML = "";
+          currentUser.history
+            .slice()
+            .reverse()
+            .forEach((tx) => {
+              const li = document.createElement("li");
+
+              li.innerHTML = `
+                <div class="p-3 border-l-4 rounded ${
+                  tx.type === "Add"
+                    ? "bg-green-50 border-green-500"
+                    : "bg-red-50 border-red-500"
+                }">
+                    <p><strong>${
+                      tx.type === "Add" ? "🟢 Added" : "🔴 Withdrawn"
+                    } ৳${tx.amount.toFixed(2)}</strong></p>
+                    <p class="text-xs text-gray-600">${tx.date}</p>
+                    <p class="text-xs text-gray-500">Balance: ৳${tx.balanceAfter.toFixed(
+                      2
+                    )}</p>
+                  </div>`;
+
+              list.appendChild(li);
+            });
+        }
+
+        // Logout Final
+        function logout() {
+          currentUser = null;
+          document.getElementById("dashboard").classList.add("hidden");
+          showSignIn();
+        }
+    </script>
   </body>
 </html>

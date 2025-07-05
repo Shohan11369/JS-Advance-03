@@ -1,14 +1,14 @@
 // Javascript start
 
-let current = null;
+let currentUser = null;
 function showSignIn() {
   document.getElementById("signup").classList.add("hidden");
   document.getElementById("signin").classList.remove("hidden");
 }
 
 function showSignUp() {
-  document.getElementById("signup").classList.add("hidden");
-  document.getElementById("signin").classList.remove("hidden");
+  document.getElementById("signin").classList.add("hidden");
+  document.getElementById("signup").classList.remove("hidden");
 }
 
 // SignUP Start
@@ -68,6 +68,18 @@ function signIn() {
   loadDashboard();
 }
 
+// /////
+function togglePassword(inputId, toggleEl) {
+  const input = document.getElementById(inputId);
+  if (input.type === "password") {
+    input.type = "text";
+    toggleEl.textContent = "Hide";
+  } else {
+    input.type = "password";
+    toggleEl.textContent = "Show";
+  }
+}
+
 // DashBoard Start
 
 function loadDashboard() {
@@ -83,7 +95,7 @@ function loadDashboard() {
 
 // AddMoney option
 
-function AddMoney() {
+function addMoney() {
   const amount = parseFloat(document.getElementById("add-amount").value);
   if (isNaN(amount) || amount <= 0) {
     alert("Enter a valid amount");
@@ -96,8 +108,8 @@ function AddMoney() {
 
 // WithDraw Money option
 
-function WithDrawMoney() {
-  const amount = parseFloat(Document.getElementById("withdraw-amount").value);
+function withDrawMoney() {
+  const amount = parseFloat(document.getElementById("withdraw-amount").value);
   if (isNaN(amount) || amount <= 0) {
     alert("Enter a valid amount");
     return;
@@ -128,6 +140,18 @@ function addTransaction(type, amount) {
   );
   document.getElementById("balance").textContent =
     currentUser.balance.toFixed(3);
+  updateHistory();
+}
+
+// Clear History
+function clearHistory() {
+  if (!confirm("Are you sure you want to delete all history?")) return;
+
+  currentUser.history = [];
+  localStorage.setItem(
+    "user_" + currentUser.username,
+    JSON.stringify(currentUser)
+  );
   updateHistory();
 }
 
